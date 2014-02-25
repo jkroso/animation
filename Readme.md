@@ -9,7 +9,7 @@ With your favorite package manager:
 
 - [packin](//github.com/jkroso/packin): `packin add jkroso/animation`
 - [component](//github.com/component/component#installing-packages): `component install jkroso/animation`
-- [npm](//npmjs.org/doc/cli/npm-install.html): `npm install animation`
+- [npm](//npmjs.org/doc/cli/npm-install.html): `npm install jkroso/animation`
 
 then in your app:
 
