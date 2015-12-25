@@ -4,7 +4,7 @@ import ms from 'parse-duration'
 import now from '@jkroso/now'
 import assert from 'assert'
 
-export default class Animation {
+export default class Animation extends Emitter {
   constructor() {
     this._duration = 300
     this._ease = ease.linear
@@ -68,9 +68,3 @@ export default class Animation {
     return this
   }
 }
-
-/**
- * mixin Emitter
- */
-
-Object.assign(Animation.prototype, Emitter.prototype)
