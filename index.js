@@ -1,77 +1,76 @@
+import ms from 'parse-duration'
+import now from '@jkroso/now'
+import Emitter from 'emitter'
+import assert from 'assert'
+import ease from 'ease'
 
-var extensible = require('extensible')
-var ms = require('parse-duration')
-var Emitter = require('emitter')
-var ease = require('ease')
-var now = require('now')
-var raf = require('raf')
+export default class Animation {
+  constructor() {
+    this._duration = 300
+    this._ease = ease.linear
+    this.running = false
+  }
 
-module.exports = Animation
+  /**
+   * set duration to `n` milliseconds. You can also
+   * pass a natural language string
+   *
+   * @param {Number|String} n
+   * @return {this}
+   */
 
-function Animation(){}
+  duration(n) {
+    if (typeof n == 'string') n = ms(n)
+    this._duration = n
+    return this
+  }
+
+  /**
+   * Set easing function to `fn`.
+   *
+   *   animation.ease('in-out-sine')
+   *
+   * @param {String|Function} fn
+   * @return {this}
+   */
+
+  ease(fn) {
+    if (typeof fn == 'string') fn = ease[fn]
+    assert(typeof fn == 'function', 'invalid easing function')
+    this._ease = fn
+    return this
+  }
+
+  /**
+   * run the animation with an optional duration
+   *
+   * @param {Number|String|Function} [n]
+   * @return {this}
+   */
+
+  run(n) {
+    if (n != null) this.duration(n)
+    const duration = this._duration
+    const start = now()
+    const loop = () => {
+      const progress = (now() - start) / duration
+      if (progress >= 1) {
+        this.render(1)
+        this.running = false
+        this.emit('end')
+      } else {
+        this.render(progress)
+        requestAnimationFrame(loop)
+      }
+    }
+    requestAnimationFrame(loop)
+    this.running = true
+    return this
+  }
+}
 
 /**
- * mixin methods
+ * mixin Emitter
  */
 
 Emitter(Animation.prototype)
-extensible(Animation)
-
-/**
- * set duration to `n` milliseconds. You can also
- * pass a natural language string
- *
- * @param {Number|String} n
- * @return {this}
- */
-
-Animation.prototype.duration = function(n){
-  if (typeof n == 'string') n = ms(n)
-  this._duration = n
-  return this
-}
-
-/**
- * Set easing function to `fn`.
- *
- *   animation.ease('in-out-sine')
- *
- * @param {String|Function} fn
- * @return {this}
- */
-
-Animation.prototype.ease = function(fn){
-  if (typeof fn == 'string') fn = ease[fn]
-  if (!fn) throw new Error('invalid easing function')
-  this._ease = fn
-  return this
-}
-
-Animation.prototype.ease('linear') // default
-
-/**
- * run the animation with an optional duration
- *
- * @param {Number|String|Function} [n]
- * @return {this}
- */
-
-Animation.prototype.run = function(n){
-  if (n != null) this.duration(n)
-  var duration = this._duration
-  var start = now()
-  var self = this
-  raf(function loop(){
-    var progress = (now() - start) / duration
-    if (progress >= 1) {
-      self.render(1)
-      self.running = false
-      self.emit('end')
-    } else {
-      self.render(progress)
-      raf(loop)
-    }
-  })
-  this.running = true
-  return this
-}

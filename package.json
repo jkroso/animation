@@ -1,22 +1,19 @@
 {
-  "name": "animation",
-  "version": "0.1.1",
+  "name": "@jkroso/animation",
+  "version": "1.0.0",
   "description": "base class for animations",
   "keywords": ["animation"],
   "dependencies": {
-    "extensible": "jkroso/extensible#0.2.0",
     "emitter": "jkroso/emitter#0.10.0",
     "ease": "component/ease#1.0.0",
-    "raf": "component/raf#1.1.2",
-    "parse-duration": "~0.1.0",
-    "now": "jkroso/now#0.1.1"
+    "parse-duration": "0",
+    "@jkroso/now": "0"
   },
   "devDependencies": {
-    "serve": "jkroso/serve",
-    "jsmd": "*"
+    "serve": "jkroso/serve"
   },
+  "transpile": [["*.js", "!sourcegraph/babel->js", {"stage": 0}]],
   "repository": "git://github.com/jkroso/animation.git",
-  "bugs": "https://github.com/jkroso/animation/issues",
   "author": "Jake Rosoman",
   "files": ["index.js"],
   "license": "MIT"
