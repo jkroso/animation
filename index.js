@@ -6,6 +6,7 @@ import assert from 'assert'
 
 export default class Animation extends Emitter {
   constructor() {
+    super()
     this._duration = 300
     this._ease = ease.linear
     this.running = false
