@@ -1,8 +1,8 @@
+import Emitter from '@jkroso/emitter'
+import ease from 'ease-component'
 import ms from 'parse-duration'
 import now from '@jkroso/now'
-import Emitter from 'emitter'
 import assert from 'assert'
-import ease from 'ease'
 
 export default class Animation {
   constructor() {
@@ -73,4 +73,4 @@ export default class Animation {
  * mixin Emitter
  */
 
-Emitter(Animation.prototype)
+Object.assign(Animation.prototype, Emitter.prototype)

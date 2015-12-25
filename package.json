@@ -1,11 +1,11 @@
 {
   "name": "@jkroso/animation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "base class for animations",
   "keywords": ["animation"],
   "dependencies": {
-    "emitter": "jkroso/emitter#0.10.0",
-    "ease": "component/ease#1.0.0",
+    "@jkroso/emitter": "1",
+    "ease-component": "1",
     "parse-duration": "0",
     "@jkroso/now": "0"
   },
