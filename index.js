@@ -42,30 +42,46 @@ export default class Animation extends Emitter {
     return this
   }
 
+  /*
+   * Run the Animation `maxLoops` times
+   */
+
+  loop(maxLoops) {
+    const duration = this._duration
+    const iteration = () => {
+      const time = now()
+      const progress = (time - start) / duration
+      if (progress >= 1) {
+        if (++loops < maxLoops) {
+          start = time
+          this.render(Math.min(progress - 1, 1))
+          requestAnimationFrame(iteration)
+        } else {
+          this.render(1)
+          this.running = false
+          this.emit('end')
+        }
+      } else {
+        this.render(progress)
+        requestAnimationFrame(iteration)
+      }
+    }
+    var loops = 0
+    var start = now()
+    requestAnimationFrame(iteration)
+    this.running = true
+    return this
+  }
+
   /**
    * run the animation with an optional duration
    *
-   * @param {Number|String|Function} [n]
+   * @param {Number|String} [n]
    * @return {this}
    */
 
   run(n) {
     if (n != null) this.duration(n)
-    const duration = this._duration
-    const start = now()
-    const loop = () => {
-      const progress = (now() - start) / duration
-      if (progress >= 1) {
-        this.render(1)
-        this.running = false
-        this.emit('end')
-      } else {
-        this.render(progress)
-        requestAnimationFrame(loop)
-      }
-    }
-    requestAnimationFrame(loop)
-    this.running = true
-    return this
+    return this.loop(1)
   }
 }
