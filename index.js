@@ -49,6 +49,7 @@ export default class Animation extends Emitter {
   loop(maxLoops) {
     const duration = this._duration
     const iteration = () => {
+      if (!this.running) return
       const time = now()
       const progress = (time - start) / duration
       if (progress >= 1) {
@@ -83,5 +84,15 @@ export default class Animation extends Emitter {
   run(n) {
     if (n != null) this.duration(n)
     return this.loop(1)
+  }
+
+  /**
+   * Prevent any further frames from being rendered
+   * @return {this}
+   */
+
+  stop() {
+    this.running = false
+    return this
   }
 }

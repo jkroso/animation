@@ -1,6 +1,6 @@
 {
   "name": "@jkroso/animation",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "base class for animations",
   "keywords": ["animation"],
   "dependencies": {
